@@ -5,9 +5,12 @@ package com.ejerciciorepasocompleto.curso703;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Properties;
 
@@ -128,22 +131,46 @@ public class ListaPersonas implements Serializable{
 		return personaDev;
 	}
 	
-	public boolean serializar (FileInputStream fis)
+	public boolean serializar ()
 	{
 		//Hacer uso del fichero de propiedades serializa.properties,
-		Properties propiedades = new Properties();
-		File fi = null;
-		FileWriter fw = null;
+		//para obtener de él el valor de la clave destino, 
+		//que representa el nombre del fichero de salida
 		
+		/*ME CREO UN OBJETO DE LA CLASE  -FileInputStream-  PARA LEER EL ARCHIVO  -serializa.properties- */
+		FileInputStream fis;
 		try {
-			propiedades.load(fis);
-		} catch (IOException e) {
+			fis = new FileInputStream("serializa.properties");
+			/*ME CREO UN OBJETO DE LA CLASE  -Properties-  PARA CARGAR EL ARCHIVO  -Properties-*/
+			Properties propiedades = new Properties();
+			/*ME CREO UN OBJETO DE LA CLASE -ObjectOutputStream-  PARA CARGAR EL ARCHIVO  -Properties-*/
+			ObjectOutputStream oos = null;
+			/*CREO UN ARCHIVO VACIO SIN INICIALIZAR*/
+			File fi = null;
+			try {
+			/*CARGO LAS PROPIEDADES DEL ARCHIVO PROPERTIES DENTRO DEL FIS PARA LEERLO*/	
+				propiedades.load(fis);
+			/*INSERTO EN EL NUEVO File -fi- LA CLABE DEL NOMBRE DE DESTINO PARA CREAR UN ARCHIVO*/	
+				 fi = new File(propiedades.getProperty("destino"));
+			/*CREO EL NUEVO ARCHIVO*/
+				 fi.createNewFile();
+			/*CARGO Y PREPARO  EN EL OBJETO LA ESCRITURA DEL MISMO EN EL ARCHIVO DE SALIDA -destino-*/	 
+				 oos = new ObjectOutputStream(new FileOutputStream(fi));
+				 oos.writeObject(array_personas);
+				 } catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//para obtener de él el valor de la clave destino, 
-		//que representa el nombre del fichero de salida
+		
+		
+		
+		
+		
 		return false;
 	}
 	
@@ -154,16 +181,29 @@ public class ListaPersonas implements Serializable{
 	
 	public void insertarPersona (Persona p) throws InsertarPersonaException
 	{
+		/**1 - COMPRUEBO QUE EL ARRAY NO ESTA LLENO
+		 * 2 - COMPRUEBO QUE LA PERSONA NO ESTA REPETIDA
+		 * 3 - INSERTO UNA NUEVA PERSONA EN EL ARRAY  
+		 * */
+		if (!estaLlena() && equals(false)) {
+//			Persona persona = new Persona(nombre, edad);
+			
+		}
 	}
 	
 	public int numeroPersonas()
 	{
+		
+		for (int i = 0; i < array_personas.length; i++) {
+			
+		}
 		return 0;
 	}
 	
 	public boolean estaLlena()
 	{
-		return false;
+		
+		return this.numPersonas==CAPACIDAD;
 	}
 	
 	public void mostrar()
@@ -171,5 +211,22 @@ public class ListaPersonas implements Serializable{
 		//TODO MOSTRAR LA LISTA DE PERSONAS
 		// pista: ayudarse del método toString de persona
 	}
+	public boolean estaVacia(){
 
+		return this.numPersonas == 0;
+	}
+	public void eliminar(){
+		
+	}
+	public ListaPersonas combinarListas(){
+		return null;
+			
+	}
+	public  boolean compareTo() {
+		for (int i = 0; i < array_personas.length; i++) {
+			
+		}
+		return false;
+
+}
 }
